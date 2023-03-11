@@ -73,9 +73,23 @@ make fmt
 
 
 
+
 # MONGO SETUP
 
-- get the docker-compose.yaml file added in project root
-- `docker-compose up -d mongo`
-- `docker ps` # (you will get of running containers)
-- `docker exec -it tracker-mongo-1 mongosh`
+## To start Mongo shell
+
+At start, add `docker-compose.yaml` file in your project root.
+And then run following commands - 
+```bash
+
+# execute following command for the first time
+docker-compose up -d mongo
+
+# To list all running containers
+docker ps
+
+# execute following command for the next time
+docker exec -it tracker-mongo-1 mongosh
+
+# In above command `tracker-mongo-1` should be name that reflects in `docker ps`
+```
