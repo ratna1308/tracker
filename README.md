@@ -70,3 +70,12 @@ autofautoflake --in-place -r .
 ```bash
 make fmt
 ```
+
+
+
+# MONGO SETUP
+
+- get the docker-compose.yaml file added in project root
+- `docker-compose up -d mongo`
+- `docker ps` # (you will get of running containers)
+- `docker exec -it tracker-mongo-1 mongosh`
