@@ -11,18 +11,17 @@ PATCH
 DELETE
 """
 
-
-from fastapi import APIRouter, Query, Body, Path
-from api.responses.detail import DetailResponse
+from fastapi import APIRouter, Body, Path, Query
+from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from starlette.responses import JSONResponse
-from fastapi.encoders import jsonable_encoder
+
+from api.responses.detail import DetailResponse
 
 
 class NameIn(BaseModel):
     name: str
     prefix: str = "Mr. "
-
 
 
 router = APIRouter(prefix="/api/v1/demo")
@@ -55,7 +54,9 @@ def send_data_query(name: str = Query(title="Name", description="The name")):
 
 
 @router.post("/hello/name", response_model=DetailResponse)
-def send_data_body(name: NameIn = Body(title="RequestBody", description="The Body of send data")):
+def send_data_body(
+    name: NameIn = Body(title="RequestBody", description="The Body of send data")
+):
     """
     Response with hello name, where name is user provided
 
@@ -122,13 +123,7 @@ def delete_data(name: str):
             status_code=404,
             content=jsonable_encoder(
                 DetailResponse(message="cannot delete admin data")
-            )
+            ),
         )
 
     return DetailResponse(message=f"data has been deleted for - {name}")
-
-
-
-
-
-

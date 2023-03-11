@@ -40,3 +40,28 @@ tracker
 
 ```
 
+
+#### Re-organize order of imports
+```bash
+pip install isort
+
+# navigate to project root dir
+isort .
+```
+
+#### format code
+```bash
+
+pip install black
+# navigate to project root dir
+black .
+```
+
+#### To remove unused imports and unused variables
+```bash
+
+pip install autoflake
+# navigate to project root dir
+autofautoflake --in-place -r .
+```
+
