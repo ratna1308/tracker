@@ -65,3 +65,8 @@ pip install autoflake
 autofautoflake --in-place -r .
 ```
 
+## To run make file
+
+```bash
+make fmt
+```
