@@ -1,0 +1,22 @@
+[
+  {
+    "title": "spiderman",
+    "year": 2018,
+    "watched": false
+  },
+    {
+    "title": "avengers",
+    "year": 2022,
+    "watched": false
+  },
+    {
+    "title": "starwars",
+    "year": 2023,
+    "watched": true
+  },
+    {
+    "title": "randommovie",
+    "year": 2001,
+    "watched": true
+  }
+]
