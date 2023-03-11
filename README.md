@@ -93,3 +93,7 @@ docker exec -it tracker-mongo-1 mongosh
 
 # In above command `tracker-mongo-1` should be name that reflects in `docker ps`
 ```
+
+NOTE - 
+If `mongosh` command is not working for non-docker users then they need 
+to set up PATH variable. Refer - https://www.mongodb.com/docs/mongodb-shell/install/#install-from-.zip-file
