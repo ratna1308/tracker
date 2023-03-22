@@ -40,6 +40,44 @@ tracker
 
 ```
 
+Step 3
+```markdown
+tracker
+├── Makefile
+├── README.md
+├── api   # sub-application to be mounted on main application
+│   ├── __init__.py
+│   ├── _tests
+│   │   ├── __init__.py
+│   │   ├── fixtures.py
+│   │   └── repository
+│   │       ├── __init__.py
+│   │       └── film
+│   ├── api.py   # application instantiation
+│   ├── entities  # defines a new resource / entity in the project
+│   │   ├── __init__.py
+│   │   └── film.py
+│   ├── handlers  # sample demo application for CRUD operations
+│   │   ├── __init__.py
+│   │   └── demo.py
+│   ├── repository   # defines DB access to each resource
+│   │   ├── __init__.py
+│   │   └── film   # resource
+│   │       ├── __init__.py
+│   │       ├── abstractions.py
+│   │       ├── memory.py
+│   │       └── mongo.py
+│   └── responses
+│       ├── __init__.py
+│       └── detail.py
+├── docker-compose.yaml
+├── films.json
+├── main.py    # entrypoint
+├── requirements.dev.txt
+├── requirements.test.txt
+├── requirements.txt
+```
+
 
 #### Re-organize order of imports
 ```bash
@@ -192,3 +230,20 @@ db.films.deleteOne({"_id": ObjectId("640c62845792975afc98eb31")})
 db.films.updateOne({"_id": ObjectId("640c62845792975afc98eb33")}, {$set: {"year": 2018}})
 ```
 
+
+#### Pros of pytest/Cons of unittest:
+pytest requires essentially no boilerplate as in no classes, setUp, and tearDown methods. All tests are simple functions.
+It uses standard assert statements as opposed to learning and using specific methods, e.g., self.assertEqual or assertDictContainsSubset.
+Fixtures are automagically injected into the different tests meaning they can be used across different tests without being re-implemented across different test-cases or having to be implemented in a different module and manually imported into individual test-cases. This also allows for very easy composition of fixtures into specific tests.
+Has built-in support for JUnit output to be used in CI tools (Jenkins, SonarQube) without requiring an additional dependency e.g. unittest-xml-reporting.
+It allows for tests to be 'tagged' through markers, e.g., tests can be tagged as 'api', 'db', 'invoice', and allows for running only tests tagged as X making selecting testing easier.
+It allows for easy parametrization of tests and shows the result of each sub-test without requiring loops
+Allows for gradual migration as the pytest runner supports unittest so existing codebases don't need to be ported immediately.
+It is new-n-shiny (TM).
+
+#### Pros of unittest/Cons of pytest:
+We have been using unittest forever and have a large codebase using it.
+It is included in the stdlib while pytest would be yet-another-requirement (YAR).
+It has some advanced assertion methods that would need to be redone with standard asserts, e.g., remaking assertDictContainsSubset or remaking assertAlmostEqual, that may be cumbersome to replace.
+Careless definition of fixtures may make it hard for a developer to figure out where they're coming from as they don't need to be defined in the module they're being used.
+Local Development

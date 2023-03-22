@@ -13,20 +13,30 @@ class MongoFilmRepository(FilmRepository):
 
 
     TODO
+    Refer - https://www.mongodb.com/docs/drivers/python/
+    Refer - https://motor.readthedocs.io/en/stable/
     Refer - https://pypi.org/project/motor/
     Refer - https://motor.readthedocs.io/en/stable/
     """
 
-    def __init__(self, connection_string: str = "mongodb://localhost:27017", database: str = "film_track_db"):
+    def __init__(self, connection_string: str = "mongodb://localhost:27017",
+                 database: str = "film_track_db"):
+        # TODO
+        # refer -
+        # https://motor.readthedocs.io/en/stable/tutorial-asyncio.html#creating-a-client
         self._client = motor.motor_asyncio.AsyncIOMotorClient(connection_string)
         self._database = self._client[database]
         # Film collection which holds our film documents.
+        # https://motor.readthedocs.io/en/stable/tutorial-asyncio.html#getting-a-collection
         self._films = self._database["films"]
 
     async def create(self, film: Film):
 
         # We are using `update_one` function to avoid duplicates
         # `update_one` function performs upsert.
+        # TODO
+        # refer -
+        # https://motor.readthedocs.io/en/stable/tutorial-asyncio.html#updating-documents
         await self._films.update_one(
             {"id": film.id},
             {
@@ -42,6 +52,9 @@ class MongoFilmRepository(FilmRepository):
         )
 
     async def get_by_id(self, film_id: str) -> typing.Optional[Film]:
+        # TODO
+        # refer
+        # https://motor.readthedocs.io/en/stable/tutorial-asyncio.html#getting-a-single-document-with-find-one
         document = await self._films.find_one({"id": film_id})
         if document:
             return Film(
