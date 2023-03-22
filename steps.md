@@ -1,6 +1,6 @@
 # STEPS to setup project
-
-1`git clone https://github.com/python10sep/tracker.git`
+```markdown
+1. `git clone https://github.com/python10sep/tracker.git`
 2. If project already exists - `git pull origin main` (provided `git remote -v` should point to correct upstream)
 3. create and activate `venv`
 4. `pip install -r requirements.txt` (pytest, motor, pytest-asyncio, fastapi)
@@ -8,6 +8,7 @@
 6. `docker ps` (capture container name from here)
 7. `docker exec -it <container-name> mongosh`
 8. `pytest .`
+```
 
 NOTE - 
 - Those who do NOT have docker can directly install mongo and execute `mongosh`
