@@ -115,7 +115,7 @@ use films
 ```
 #### To insert a single record in database
 ```bash
-db.films.insertOne({"title": "My Movie", "year": 2023, "watched": false})
+db.films.insertOne({"title": "My Film", "year": 2023, "watched": false})
 ```
 
 #### To get list of all the records in given table
@@ -130,7 +130,7 @@ db.films.findOne()
 
 #### To filter out records based on certain column
 ```bash
-db.films.find({"title": "My Movie"})
+db.films.find({"title": "My Film"})
 db.films.find({"year": 2023})
 ```
 
@@ -161,7 +161,7 @@ For example it will be invalid to say - `db.films.find({}, {"title": 1, "year": 
 #### To insert multiple films in single shot
 ```bash
 db.films.insertMany() # list of films should be provided as input
-db.films.insertMany([{"title":"spiderman","year":2018,"watched":false},{"title":"avengers","year":2022,"watched":false},{"title":"starwars","year":2023,"watched":true},{"title":"randommovie","year":2001,"watched":true}])
+db.films.insertMany([{"title":"spiderman","year":2018,"watched":false},{"title":"avengers","year":2022,"watched":false},{"title":"starwars","year":2023,"watched":true},{"title":"randomfilm","year":2001,"watched":true}])
 ```
 
 #### To get films produced before/after 2021
