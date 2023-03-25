@@ -14,14 +14,14 @@ class Settings(BaseSettings):
     # MongoDB Settings
     mongo_connection_string: str = Field(
         "mongodb://localhost:27017",
-        title="MongoDB Movies Connection string",
+        title="MongoDB Films Connection string",
         description="The connection string for the MongoDB database.",
         env="MONGODB_CONNECTION_STRING",
     )
     mongo_database_name: str = Field(
-        "movie_track_db",
-        title="MongoDB Movies Database name",
-        description="The database name for the MongoDB Movies database.",
+        "Film_track_db",
+        title="MongoDB Films Database name",
+        description="The database name for the MongoDB Films database.",
         env="MONGODB_DATABASE_NAME",
     )
 
