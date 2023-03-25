@@ -27,7 +27,8 @@ def memory_film_repo_fixture():
 def mongo_film_repo_fixture():
     random_database_name = secrets.token_hex(5)
     repo = MongoFilmRepository(
-        connection_string="mongodb://localhost:27017", database=random_database_name
+        connection_string="mongodb://localhost:27017",
+        database=random_database_name
     )
     yield repo
     # noinspection PyProtectedMember
