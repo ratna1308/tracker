@@ -26,6 +26,8 @@ class Settings(BaseSettings):
     )
 
     def __hash__(self) -> int:
+        # NOTE - we are having to override `hash` function because `Settings`
+        # is un-hashable type.
         return 1
 
 
