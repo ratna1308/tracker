@@ -31,6 +31,11 @@ def mongo_film_repo_fixture():
         database=random_database_name
     )
     yield repo
+
+    # NOTE - fixture completes its execution until yield statement
+    # once fixture has been used (repo yielded to tests) and tests are completed
+    # we get the event loop and DB clean up activity is done.
+
     # noinspection PyProtectedMember
     loop = asyncio.get_event_loop_policy().get_event_loop()
     loop.run_until_complete(repo._client.drop_database(random_database_name))

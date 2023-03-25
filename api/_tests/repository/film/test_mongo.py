@@ -19,6 +19,7 @@ async def test_create(mongo_film_repo_fixture):
             watched=True,
         )
     )
+
     film: Film = await mongo_film_repo_fixture.get_by_id("first")
     assert film == Film(
         film_id="first",
