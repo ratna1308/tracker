@@ -28,3 +28,12 @@ NOTE -
 - `show collections`
 - `db.films.find()`
 ```
+
+### STEPS to add basic authentication
+
+1. Specify dependency in view
+2. Define authentication function
+3. Capture authentication credentials in authentication function using `HTTPBasic()`
+4. Validate captured credentials against values in DB
+5. Raise error (401) if validation fails
+6. If authentication is success, let user access the view.

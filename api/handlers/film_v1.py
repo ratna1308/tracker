@@ -11,6 +11,8 @@ from starlette.datastructures import Headers
 from starlette.responses import JSONResponse, Response
 from fastapi.security import HTTPBasicCredentials, HTTPBasic
 
+from jose import jwt
+
 from api.dto.film import (
     CreateFilmBody,
     FilmCreatedResponse,
@@ -23,7 +25,34 @@ from api.repository.film.mongo import MongoFilmRepository
 from api.dto.detail import DetailResponse
 from api.settings import Settings, settings_instance
 
-router = APIRouter(prefix="/api/v1/films", tags=["films"])
+
+http_basic = HTTPBasic()
+
+
+def basic_authentication(
+        credentials: HTTPBasicCredentials = Depends(http_basic)
+):
+    if (
+            credentials.username == "prashant"
+            and credentials.password == "password@321"
+    ):
+        return
+
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="invalid credentials"
+    )
+
+
+# router = APIRouter(
+#     prefix="/api/v1/films",
+#     tags=["films"],
+#     dependencies=[Depends(basic_authentication)]
+# )
+router = APIRouter(
+    prefix="/api/v1/films",
+    tags=["films"]
+)
 
 
 @lru_cache()
@@ -72,38 +101,17 @@ async def post_create_film(
     return FilmCreatedResponse(id=film_id)
 
 
-@dataclasses.dataclass
-class Token:
-    name: str
-    admin: bool
-
-
-http_basic = HTTPBasic()
-
-
-def basic_authentication(credentials: HTTPBasicCredentials=Depends(http_basic)):
-    if (
-            credentials.username == "prashant"
-            and credentials.password == "password@321"
-    ):
-        return
-    raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="invalid credentials"
-    )
-
-
 @router.get(
     "/{film_id}",
     responses={200: {"model": FilmResponse}, 404: {"model": DetailResponse}},
 )
 async def get_film_by_id(
-    film_id: str, repo: FilmRepository = Depends(film_repository),
-        basic=Depends(basic_authentication)
+    film_id: str, repo: FilmRepository = Depends(film_repository)
 ):
     """
     Returns a Film if found, None otherwise.
     """
+
     film = await repo.get_by_id(film_id=film_id)
     if film is None:
         return JSONResponse(
@@ -121,6 +129,44 @@ async def get_film_by_id(
     )
 
 
+@dataclasses.dataclass
+class Token:
+    name: str
+    admin: bool
+
+
+def authenticate_jwt(
+        authorization: typing.Union[str, None] = Header(default=None)
+):
+    """
+
+    Bearer <token>
+
+    Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.31Fj99vu4Nh5pOECE07DGMcm9tE2IdiLy9MTr2uS-aA
+
+    Args:
+        authorization:
+
+    Returns:
+
+    """
+
+    token_secret = "password@321"
+
+    if authorization is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="invalid token"
+        )
+
+    token = authorization.split(" ")[1]
+    token_payload = jwt.decode(token, token_secret, algorithms=['HS256'])
+    return Token(
+        name=token_payload.get("name"),
+        admin=token_payload.get("admin", False)
+    )
+
+
 @router.get("/", response_model=typing.List[FilmResponse])
 async def get_films_by_title(
     title: str = Query(
@@ -128,10 +174,12 @@ async def get_films_by_title(
     ),
     pagination=Depends(pagination_params),
     repo: FilmRepository = Depends(film_repository),
+    _=Depends(authenticate_jwt)
 ):
     """
         This handler returns films by filtering their title.
     """
+
     films = await repo.get_by_title(
         title, skip=pagination.skip, limit=pagination.limit
     )
