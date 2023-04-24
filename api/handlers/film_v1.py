@@ -9,6 +9,7 @@ from fastapi.encoders import jsonable_encoder
 from starlette import status
 from starlette.datastructures import Headers
 from starlette.responses import JSONResponse, Response
+from fastapi.security import HTTPBasicCredentials, HTTPBasic
 
 from api.dto.film import (
     CreateFilmBody,
@@ -77,12 +78,28 @@ class Token:
     admin: bool
 
 
+http_basic = HTTPBasic()
+
+
+def basic_authentication(credentials: HTTPBasicCredentials=Depends(http_basic)):
+    if (
+            credentials.username == "prashant"
+            and credentials.password == "password@321"
+    ):
+        return
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="invalid credentials"
+    )
+
+
 @router.get(
     "/{film_id}",
     responses={200: {"model": FilmResponse}, 404: {"model": DetailResponse}},
 )
 async def get_film_by_id(
-    film_id: str, repo: FilmRepository = Depends(film_repository)
+    film_id: str, repo: FilmRepository = Depends(film_repository),
+        basic=Depends(basic_authentication)
 ):
     """
     Returns a Film if found, None otherwise.
