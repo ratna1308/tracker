@@ -144,6 +144,11 @@ def authenticate_jwt(
 
     Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.31Fj99vu4Nh5pOECE07DGMcm9tE2IdiLy9MTr2uS-aA
 
+    TODO - refer
+    https://jwt.io/
+    https://python-jose.readthedocs.io/en/latest/jws/index.html#examples
+    https://pypi.org/project/python-jose/
+
     Args:
         authorization:
 
@@ -151,7 +156,15 @@ def authenticate_jwt(
 
     """
 
-    token_secret = "password@321"
+    token_secret = """-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu1SU1LfVLPHCozMxH2Mo
+4lgOEePzNm0tRgeLezV6ffAt0gunVTLw7onLRnrq0/IzW7yWR7QkrmBL7jTKEn5u
++qKhbwKfBstIs+bMY2Zkp18gnTxKLxoS2tFczGkPLPgizskuemMghRniWaoLcyeh
+kd3qqGElvW/VDL5AaWTg0nLVkjRo9z+40RQzuVaE8AkAFmxZzow3x+VJYKdjykkJ
+0iT9wCS0DRTXu269V264Vf/3jvredZiKRkgwlL9xNAwxXFg0x/XFw005UWVRIkdg
+cKWTjpBP2dPwVZ4WWC+9aGVd+Gyn1o0CLelf4rEjGoXbAAEgAqeGUxrcIlbjXfbc
+mwIDAQAB
+-----END PUBLIC KEY-----"""
 
     if authorization is None:
         raise HTTPException(
@@ -160,7 +173,7 @@ def authenticate_jwt(
         )
 
     token = authorization.split(" ")[1]
-    token_payload = jwt.decode(token, token_secret, algorithms=['HS256'])
+    token_payload = jwt.decode(token, token_secret, algorithms=['RS256'])
     return Token(
         name=token_payload.get("name"),
         admin=token_payload.get("admin", False)
