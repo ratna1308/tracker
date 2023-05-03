@@ -4,9 +4,9 @@ import pytest
 
 # noinspection PyUnresolvedReferences
 from api._tests.fixtures import mongo_film_repo_fixture
-from api.repository.film.mongo import MongoFilmRepository
 from api.entities.film import Film
 from api.repository.film.abstractions import RepositoryException
+from api.repository.film.mongo import MongoFilmRepository
 
 
 async def test_create(mongo_film_repo_fixture):

@@ -8,7 +8,6 @@ https://zerosteiner.github.io/rule-engine/
 
 import rule_engine
 
-
 # RULE MAKING
 rule = rule_engine.Rule('first_name == "Luke" and email =~ ".*@rebels.org$"')
 
@@ -29,43 +28,41 @@ print(f"result1 - {result1}")
 print(f"result2 - {result2}")
 
 
-
 ##### comic validation rules  ######
 
 import datetime
 
-
 comics = [
-  {
-    'title': 'Batman',
-    'publisher': 'DC',
-    'issue': 89,
-    'released': datetime.date(2020, 4, 28)
-  },
-  {
-    'title': 'Flash',
-    'publisher': 'DC',
-    'issue': 753,
-    'released': datetime.date(2020, 5, 5)
-  },
-  {
-    'title': 'Captain Marvel',
-    'publisher': 'Marvel',
-    'issue': 18,
-    'released': datetime.date(2020, 6, 6)
-  }
+    {
+        "title": "Batman",
+        "publisher": "DC",
+        "issue": 89,
+        "released": datetime.date(2020, 4, 28),
+    },
+    {
+        "title": "Flash",
+        "publisher": "DC",
+        "issue": 753,
+        "released": datetime.date(2020, 5, 5),
+    },
+    {
+        "title": "Captain Marvel",
+        "publisher": "Marvel",
+        "issue": 18,
+        "released": datetime.date(2020, 6, 6),
+    },
 ]
 
 # RULE 1 - To match records that have publisher as `DC`
 rule1 = rule_engine.Rule(
-  # match books published by DC
-  'publisher == "DC"'
+    # match books published by DC
+    'publisher == "DC"'
 )
 
 # RULE 2 -
 rule2 = rule_engine.Rule(
-  # match DC books released in May 2020
-  'released >= d"2020-05-01" and released < d"2020-06-01" and publisher == "DC"'
+    # match DC books released in May 2020
+    'released >= d"2020-05-01" and released < d"2020-06-01" and publisher == "DC"'
 )
 
 

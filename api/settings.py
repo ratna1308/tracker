@@ -9,7 +9,7 @@ class Settings(BaseSettings):
         True,
         title="Enable metrics",
         description="Expose prometheus metrics if set to True. Default: True",
-        env="ENABLE_METRICS"
+        env="ENABLE_METRICS",
     )
     # MongoDB Settings
     mongo_connection_string: str = Field(

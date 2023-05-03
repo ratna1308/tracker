@@ -19,8 +19,11 @@ class MongoFilmRepository(FilmRepository):
     Refer - https://motor.readthedocs.io/en/stable/
     """
 
-    def __init__(self, connection_string: str = "mongodb://localhost:27017",
-                 database: str = "film_track_db"):
+    def __init__(
+        self,
+        connection_string: str = "mongodb://localhost:27017",
+        database: str = "film_track_db",
+    ):
         # TODO
         # refer -
         # https://motor.readthedocs.io/en/stable/tutorial-asyncio.html#creating-a-client
@@ -31,7 +34,6 @@ class MongoFilmRepository(FilmRepository):
         self._films = self._database["films"]
 
     async def create(self, film: Film):
-
         # We are using `update_one` function to avoid duplicates
         # `update_one` function performs upsert.
         # TODO

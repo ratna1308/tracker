@@ -29,7 +29,7 @@ class MemoryFilmRepository(FilmRepository):
                 return_value.append(value)
         if limit == 0:
             return return_value[skip:]
-        return return_value[skip: skip + limit]
+        return return_value[skip : skip + limit]
 
     async def update(self, film_id: str, update_parameters: dict):
         film = self._storage.get(film_id)
